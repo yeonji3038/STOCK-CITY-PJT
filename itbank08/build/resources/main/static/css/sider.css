@@ -1,0 +1,38 @@
+              /* 사이드바 스타일 */
+              .sidebar {
+                width: 20%;
+                /* 필요에 따라 너비 조정 */
+                height: 100vh;
+                /* 뷰포트 높이에 맞춤 */
+                background-color: #cadae7;
+                /* 사이드바 배경색 */
+                position: absolute;
+                right: 0;
+                z-index: 999;
+                display: flex;
+                transition: margin-top 0.5s;
+                /* 항상 위에 유지 */
+              }
+
+              /* 사이드바 내용 스타일 */
+              .sidebar-content {
+                margin-top: 60px;
+                padding: 20px;
+                color: #2895F4;
+              }
+
+              /* 추가된 스타일 */
+              .sidebar.hidden {
+                margin-top: 0;
+              }
+
+              /* 컨텐츠 컨테이너 스타일 */
+              .content-container {
+                margin: 0 0 auto 0;
+                width: 78%;
+                /* 사이드바 너비에 따라 여백 조정 */
+                padding: 20px;
+                /* 내용에 여백 추가 */
+                transition: margin-left 0.5s;
+                /* 전환 효과 추가 */
+              }

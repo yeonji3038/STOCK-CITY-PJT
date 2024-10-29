@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.join.JoinMapper">
+    <resultMap type="com.example.demo.join.JoinDTO" id="join"/>
+    <insert id="registProc">
+        INSERT INTO user (no, id, pw, company, businessNo, email, regDate, registStatus, adCount, accountId, dbName) 
+        SELECT IFNULL(MAX(no), 0) + 1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 
+        CASE WHEN #{registStatus} IS NULL THEN 'denied' ELSE #{registStatus} END, #{adCount}, 
+        CASE WHEN #{accountId} IS NULL THEN 'store' ELSE #{accountId} END , #{dbName} 
+        FROM user
+    </insert>
+    <insert id="insertStoreNo">
+        INSERT INTO store (no, storeNo, name, address, tel) VALUES (#{no}, #{storeNo}, #{name}, #{address}, #{tel})
+    </insert>
+    <update id="updateStoreNo">
+        UPDATE store SET name=#{name}, tel=#{tel}, address=#{address} WHERE storeNo=#{storeNo}
+    </update>
+    <select id="findJoin" resultMap="join">
+        SELECT * FROM user WHERE id=#{id}
+    </select>
+    <select id="findBN" resultMap="join">
+        SELECT * FROM user WHERE businessNo=#{businessNo}
+    </select>
+    <select id="findEmail" resultMap="join">
+        SELECT * FROM user WHERE email=#{email}
+    </select>
+    <select id="findDbName" resultMap="join">
+        SELECT * FROM user WHERE dbName=#{dbName}
+    </select>
+    <resultMap type="com.example.demo.join.StoreDTO" id="store"/>
+    <select id="findStoreNo" resultMap="store">
+        SELECT * FROM store WHERE storeNo=#{storeNo}
+    </select>
+    <select id="checkStatus" resultMap="join">
+        SELECT registStatus FROM user WHERE id=#{id}
+    </select>
+    <update id="updateProc">
+        UPDATE user SET pw=#{pw}, email=#{email} WHERE id=#{id}
+    </update>
+    <select id="manageInfo" resultMap="join">
+        SELECT * FROM user WHERE accountId='store'
+    </select>
+    <update id="statusModify">
+        UPDATE user SET 
+        registStatus=
+        CASE 
+            WHEN registStatus = 'approve' THEN 'inactive'
+            WHEN registStatus = 'inactive' THEN 'active'
+            WHEN registStatus = 'active' THEN 'inactive'
+        END, 
+        regDate=
+        CASE 
+            WHEN registStatus = 'approve' THEN DATE_ADD(NOW(), INTERVAL 9 HOUR)
+            WHEN registStatus = 'inactive' THEN 'X'
+            WHEN registStatus = 'active' THEN DATE_ADD(NOW(), INTERVAL 9 HOUR)
+        END
+        WHERE id=#{id}
+    </update>
+    <delete id="storeDeleteProc">
+        DELETE FROM user WHERE id=#{id}
+    </delete>
+</mapper>

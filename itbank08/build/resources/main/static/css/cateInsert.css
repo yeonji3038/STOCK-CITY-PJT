@@ -1,0 +1,66 @@
+/* 기본 설정 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* 각 폼 컨테이너 스타일 */
+.container {
+    display: flex;
+    gap: 20px;
+    /* Add a 20px gap between the containers */
+    margin: 20px auto;
+}
+
+.form-container {
+    flex: 1;
+    max-width: 400px;
+    padding: 20px;
+    border: 1px solid #3498db;
+    border-radius: 10px;
+    background-color: #fff;
+
+}
+
+/* 각 폼 정렬 */
+form {
+    text-align: center;
+}
+
+/* 둥근 테두리 스타일 추가 */
+input,
+textarea,
+button {
+    border-radius: 5px;
+    border: 1px solid #3498db;
+}
+
+/* 라벨 스타일 */
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* 입력 필드 스타일 */
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+/* 오류 메시지 스타일 */
+.error {
+    border: 1px solid red;
+}

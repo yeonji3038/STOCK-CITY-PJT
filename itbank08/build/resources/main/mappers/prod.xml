@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.prod.ProdMapper">
+
+        <resultMap id="prod" type="com.example.demo.prod.ProdDTO" />
+        <resultMap id="cate" type="com.example.demo.prod.CateDTO" />
+        <resultMap id="brand" type="com.example.demo.prod.BrandDTO" />
+        <resultMap id="color" type="com.example.demo.prod.ColorDTO" />
+        <resultMap id="join" type="com.example.demo.join.JoinDTO" />
+        <resultMap id="store" type="com.example.demo.join.StoreDTO" />
+
+        <insert id="prodInsertProc" parameterType="com.example.demo.prod.ProdDTO"> INSERT INTO
+                product (prodNo, brandCode, cateCode, prodName, incomePrice, sellPrice, size,
+                colorCode, quan, prodCon, regDate, storeName) VALUES (#{prodNo}, #{brandCode},
+                CONCAT(#{cateGroup},'(',#{cateCode},')'), #{prodName}, #{incomePrice}, #{sellPrice},
+                #{size}, #{colorCode}, #{quan}, #{prodCon}, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 9
+                HOUR), #{storeName}) </insert>
+
+        <select id="connectName" resultMap="join"> <!-- user, store의 no값이 같은 store데이터의 name값 호출--> SELECT store.name AS store_name FROM user INNER
+                JOIN store ON user.no = store.no WHERE user.id = #{id} </select>
+
+        <!--셀렉트
+    옵션-->
+        <select id="cateGroupList" resultMap="cate"> SELECT DISTINCT cateGroup FROM category; </select>
+        <select id="cateCodeList" resultMap="cate"> SELECT DISTINCT cateCode FROM category; </select>
+        <select id="brandCodeList" resultMap="brand"> SELECT * FROM brand; </select>
+        <select id="colorCodeList" resultMap="color"> SELECT * FROM color; </select>
+        <select id="storeNameList"> SELECT DISTINCT storeName FROM product WHERE storeName IS NOT
+                NULL</select>
+        <!-- 
+    <select id = "prodList">
+        SELECT * FROM product WHERE prodNo LIKE CONCAT('%', #{prodNo}, '%')
+    </select> -->
+
+        <select id="searchProd" resultType="com.example.demo.prod.ProdDTO">
+                SELECT * FROM product 
+                <where>
+                        <if test="cateCode == null or cateCode == ''"> AND cateCode like CONCAT(#{cateGroup}, '%') </if>
+                        <if test="cateGroup == null or cateGroup == ''"> AND cateCode like CONCAT('%', #{cateCode}, '%') </if>
+                        <if test="cateCode != null and cateCode != '' and cateGroup != null and cateGroup != ''">
+                                OR cateCode = CONCAT(#{cateGroup}, '(', #{cateCode}, ')') </if>
+                        <if test="colorCode != null and colorCode != ''"> AND colorCode = #{colorCode} </if>
+                        <if test="size != null and size != ''"> AND size = #{size} </if>
+                        <if test="prodNo != null and prodNo != ''"> AND prodNo LIKE CONCAT('%', #{prodNo}, '%') </if>
+                        <if test="storeName == null"> AND storeName IS NULL </if>
+                </where>
+        </select>
+
+
+        <!-- 카테고리 추가 -->
+        <insert id="addBrand" parameterType="com.example.demo.prod.BrandDTO"> INSERT INTO brand
+                (brandCode, brandDescription) VALUES (#{brandCode}, #{brandDescription}) </insert>
+
+        <insert id="addCategory" parameterType="com.example.demo.prod.CateDTO"> INSERT INTO category
+                (cateGroup, cateCode, cateName) VALUES (#{cateGroup}, #{cateCode}, #{cateName}) </insert>
+
+        <insert id="addColor" parameterType="com.example.demo.prod.ColorDTO"> INSERT INTO color
+                (colorCode, colorName) VALUES (#{colorCode}, #{colorName}) </insert>
+
+        <select id="findById"> SELECT * from product WHERE (prodNo = #{prodNo} AND storeName IS NULL) </select>
+
+        <update id="updateProd" parameterType="com.example.demo.prod.ProdDTO"> UPDATE product SET
+                incomePrice=#{incomePrice}, sellPrice=#{sellPrice}, prodCon=#{prodCon} WHERE
+                prodNo=#{prodNo} </update>
+
+        <!-- stockStatus.jsp 코드 -->
+        <resultMap id="stockStatus" type="com.example.demo.prod.StockStatusDTO">
+                <result property="storeName" column="storeName" />
+                <result property="prodNo" column="prodNo" />
+                <result property="brandCode" column="brandCode" />
+                <result property="cateCode" column="cateCode" />
+                <result property="cateGroup" column="cateGroup" />
+                <result property="prodName" column="prodName" />
+                <result property="incomePrice" column="incomePrice" />
+                <result property="sellPrice" column="sellPrice" />
+                <result property="size" column="size" />
+                <result property="sizeS" column="sizeS" />
+                <result property="sizeM" column="sizeM" />
+                <result property="sizeL" column="sizeL" />
+                <result property="sizeXL" column="sizeXL" />
+                <result property="colorCode" column="colorCode" />
+                <result property="quan" column="quan" />
+                <result property="colorName" column="colorName" />
+        </resultMap>
+        <select id="stockStatus" resultMap="stockStatus">
+                SELECT
+                    p.storeName,
+                    p.prodNo,
+                    p.brandCode,
+                    p.cateCode,
+                    p.prodName,
+                    p.incomePrice,
+                    p.sellPrice,
+                    p.size,
+                    p.colorCode,
+                    p.quan,
+                    c.colorName 
+                FROM product p
+                LEFT JOIN color c ON p.colorCode = c.colorCode
+                <where>
+                    <if test="cateCode == null or cateCode == ''"> AND cateCode like CONCAT(#{cateGroup}, '%') </if>
+                    <if test="cateGroup == null or cateGroup == ''"> AND cateCode like CONCAT('%', #{cateCode}, '%') </if>
+                    <if test="cateCode != null and cateCode != '' and cateGroup != null and cateGroup != ''">
+                        OR cateCode = CONCAT(#{cateGroup}, '(', #{cateCode}, ')')
+                    </if>
+                    <if test="colorCode != null and colorCode != ''"> AND colorCode = #{colorCode} </if>
+                    <if test="size != null and size != ''"> AND size = #{size} </if>
+                    <if test="prodNo != null and prodNo != ''"> AND prodNo LIKE CONCAT('%', #{prodNo}, '%') </if>
+                    AND storeName = #{storeName}
+                </where>
+            </select>
+</mapper>

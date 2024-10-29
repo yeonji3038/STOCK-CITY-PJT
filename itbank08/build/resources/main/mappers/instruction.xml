@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.instruction.InstructionMapper">
+
+    <!-- 사용할 DTO -->
+    <resultMap id="instruction" type="com.example.demo.instruction.InstructionDTO">
+
+
+        <!-- InstructionDTO 필드에 대한 매핑 -->
+        <id property="no" column="no"/>
+        <result property="id" column="id"/>
+        <result property="processing" column="processing"/>
+        <result property="confirmation" column="confirmation"/>
+    
+
+         <!-- OrderStockDTO 필드에 대한 매핑 -->
+        <result property="reqQuan" column="reqQuan"/>
+        <result property="respQuan" column="respQuan"/>
+        <result property="reqDate" column="reqDate"/>
+        <result property="respDate" column="respDate"/>
+        <result property="orderStatus" column="orderStatus"/>
+       
+
+         <!-- ProdDTO 필드에 대한 매핑 -->
+        <result property="prodNo" column="prodNo"/>
+        <result property="brandCode" column="brandCode"/>
+        <result property="prodName" column="prodName"/>
+        <result property="incomePrice" column="incomePrice"/>
+        <result property="sellPrice" column="sellPrice"/>
+        <result property="size" column="size"/>
+        <result property="storeName" column="storeName"/>
+       
+
+        <!-- CateDTO 필드에 대한 매핑 -->
+        <result property="cateGroup" column="cateGroup"/>
+        <result property="cateCode" column="cateCode"/>
+        <result property="cateName" column="cateName"/>
+     
+
+        <!-- ColorDTO 필드에 대한 매핑 -->
+        <result property="colorCode" column="colorCode"/>
+        <result property="colorName" column="colorName"/>
+     
+       
+    </resultMap>
+    
+  
+
+    <!-- InstructionDTO에 대한 셀렉트 옵션 -->
+    <select id="instructionGroupList" resultMap="instruction"> 
+        SELECT DISTINCT no FROM instruction; 
+    </select>
+
+    <!-- OrderStockDTO에 대한 셀렉트 옵션 -->
+    <select id="orderStockList" resultMap="instruction"> 
+        SELECT DISTINCT reqQuan FROM orderStock; 
+    </select>
+
+    <!-- ProdDTO에 대한 셀렉트 옵션 -->
+    <select id="prodList" resultMap="instruction"> 
+        SELECT DISTINCT prodNo, prodName, colorCode, size, sellPrice FROM product; 
+    </select>
+
+    <!-- CateDTO에 대한 셀렉트 옵션 -->
+    <select id="cateList" resultMap="instruction"> 
+        SELECT DISTINCT cateGroup,cateCode,cateName FROM category; 
+    </select>
+    
+    <!-- ColorDTO에 대한 셀렉트 옵션 -->
+    <select id="colorList" resultMap="instruction"> 
+        SELECT DISTINCT colorCode,colorName FROM color; 
+    </select>
+
+    <!--검색창-->
+    <select id ="searchProdNo">
+		SELECT * FROM instruction WHERE ProdNo LIKE CONCAT('%', #{ProdNo}, '%')
+	</select>
+
+        <!-- 카테그룹에 대한 셀렉트 옵션 -->
+    <select id="categroup" resultMap="instruction"> 
+     SELECT DISTINCT(cateGroup) from category;
+    </select>
+
+        <!-- 카테코드에 대한 셀렉트 옵션 -->
+    <select id="cateCode" resultMap="instruction"> 
+    SELECT DISTINCT cateCode FROM category; 
+    </select>
+
+        <!-- 컬러코드에 대한 셀렉트 옵션 -->
+    <select id="colorCode" resultMap="instruction"> 
+    SELECT DISTINCT colorCode FROM color; 
+    </select>
+
+    <select id="searchProd" resultMap="instruction"> 
+        SELECT * FROM product <where>
+            <if test="cateCode == null or cateCode == ''"> AND cateCode like CONCAT(#{cateGroup},
+        '%') </if>
+        <if test="cateGroup == null or cateGroup == ''"> AND cateCode like CONCAT('%',
+        #{cateCode}, '%') </if>
+        <if
+                test="cateCode != null and cateCode != '' and cateGroup != null and cateGroup != ''">
+        OR cateCode = CONCAT(#{cateGroup}, '(', #{cateCode}, ')') </if>
+        <if
+                test="colorCode != null and colorCode != ''"> AND colorCode = #{colorCode} </if>
+        <if
+                test="size != null and size != ''"> AND size = #{size} </if>
+        <if
+                test="prodNo != null and prodNo != ''"> AND prodNo LIKE CONCAT('%', #{prodNo}, '%') </if>
+        <if
+                test="storeName == null"> AND storeName IS NULL </if>
+        </where>
+    </select>
+
+    <select id="findRootInst">
+    SELECT * from product WHERE (prodNo=#{prodNo} AND storeName=#{storeName})
+    </select>
+    <update id="updateStoreInst" > <!--parameterType="com.example.demo.prod.ProdDTO"-->
+        UPDATE product SET quan=#{quan} WHERE (prodNo=#{prodNo} AND storeName=#{storeName})
+    </update>
+    <update id="updateRootQuan">  <!--parameterType="com.example.demo.prod.ProdDTO"-->
+        UPDATE product SET quan=#{quan} WHERE (prodNo=#{prodNo} AND storeName=#{storeName})
+    </update>
+    <select id="findStoreInst">
+    SELECT * from product WHERE (prodNo=#{prodNo} AND storeName=#{storeName})
+    </select>
+    <insert id="insertStoreInst">  <!--parameterType="com.example.demo.prod.ProdDTO"-->
+    INSERT INTO instruction (id, prodNo, prodName, colorCode, size, respStore , respQuan, respDate) 
+    VALUES (#{id},#{prodNo}, #{prodName}, #{colorCode}, #{size}, #{respStore} , #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR))
+    </insert>
+    <insert id="instwriteProc"> <!-- 지시 마감처리-->
+    INSERT INTO orderStock (reqStore, respStore, prodNo, respQuan, respDate, orderStatus) 
+    VALUES (#{reqStore}, #{storeName}, #{prodNo}, #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 'response')
+    </insert>
+
+    <!-- <insert id="instwriteProc"> 
+        INSERT INTO orderStock (respStore, prodNo, respQuan, respDate, orderStatus) VALUES (#{storeName}, #{prodNo}, #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 'response')
+    </insert> -->
+
+
+<!--지시-->
+    <select id="getDate">
+    SELECT 
+        i.prodNo,
+        i.prodName,
+        i.colorCode,
+        i.size,
+        i.respStore,
+        i.respQuan,
+        i.respDate
+    FROM 
+        instruction i
+    JOIN 
+        product p ON i.prodNo = p.prodNo
+        AND i.prodName = p.prodName
+        AND i.colorCode = p.colorCode
+        AND i.size = p.size
+        AND i.respStore = p.storeName
+    WHERE 
+       i.respDate LIKE CONCAT(#{regDate}, ' ', '%')
+       AND i.id = #{sessionId}
+    ORDER BY i.respDate DESC
+    </select>
+    
+<!--지시기간,타매장-->
+<!-- <select id="getDate" resultMap="instruction">
+    SELECT
+        i.id, 
+        i.prodNo,
+        i.prodName,
+        i.colorCode,
+        i.size,
+        i.respStore,
+        i.respQuan,
+        i.respDate
+    FROM 
+        instruction i
+    JOIN 
+        product p ON i.prodNo = p.prodNo
+        AND i.prodName = p.prodName
+        AND i.colorCode = p.colorCode
+        AND i.size = p.size
+        AND i.respStore = p.storeName
+    JOIN 
+        user u ON i.id = u.id
+    JOIN 
+        store s ON u.id = s.Name
+    WHERE 
+    (i.respDate LIKE CONCAT(#{regDate}, ' ', '%')) 
+    AND i.id = #{sessionId}
+    AND s.Name = u.id
+    ORDER BY i.respDate DESC
+</select> -->
+
+
+ 
+
+  <!--타매장-->
+    <select id="getOtherStoreInstructions">
+    SELECT 
+        i.id,
+        i.prodNo,
+        i.prodName,
+        i.colorCode,
+        i.size,
+        i.respStore,
+        i.respQuan,
+        i.respDate
+        
+    FROM 
+        instruction i
+    JOIN 
+        product p ON i.prodNo = p.prodNo
+        AND i.prodName = p.prodName
+        AND i.colorCode = p.colorCode
+        AND i.size = p.size
+        AND i.respStore = p.storeName
+    WHERE 
+       i.id != #{sessionId}
+    ORDER BY i.respDate DESC
+    </select>
+
+
+
+</mapper>

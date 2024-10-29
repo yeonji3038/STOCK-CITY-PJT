@@ -1,0 +1,173 @@
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-color: #2e363d;
+    width: 96%;
+    margin: auto;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    height: 76vh;
+    /* 테이블의 높이를 뷰포트 높이의 100%로 설정합니다. */
+  }
+
+  th,
+  td {
+    font-weight: normal;
+    padding: 6px;
+    text-align: center;
+    border-radius: 0;
+  }
+
+  th {
+    background-color: #cadae7;
+    color: black;
+  }
+
+  .inventory-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2e363d;
+    text-align: left;
+    margin: 20px 20px;
+  }
+
+  .white-bg {
+    background-color: white;
+    border-radius: 4px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  textarea,
+  select {
+    width: calc(100% - 16px);
+    padding: 6px;
+    margin: 8px 0;
+    border: 1px solid rgb(168, 168, 168);
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin: 0 10px;
+  }
+
+  .button-container {
+    text-align: center;
+  }
+
+  input[type="submit"] {
+    background-color: #cadae7;
+    color: black;
+    padding: 10px 30px;
+    border: 2px rgb(168, 168, 168);
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px;
+    display: inline-block;
+  }
+
+  .cancel {
+    background-color: #cadae7;
+    color: black;
+    padding: 10px 30px;
+    border: 2px rgb(168, 168, 168);
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px;
+    display: inline-block;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #2895F4;
+  }
+
+  td:first-child {
+    text-align: center;
+  }
+
+  .insert-button {
+    background-color: #cadae7;
+    border-radius: 4px;
+    border: none;
+    padding: 4px;
+    width: 13%;
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    text-align: left;
+  }
+
+  select#brandCode,
+  select#cateGroup,
+  select#color {
+    width: 40%;
+  }
+
+  select#cateCode {
+    width: 40%;
+    margin-top: 10px;
+  }
+
+  /* 모달생성 */
+  .modal {
+    display: none;
+    border-radius: 8px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 600px;
+    /* 최대 너비 지정 */
+    height: auto;
+    overflow: auto;
+    padding: 20px;
+    background-color: #e6f4ff;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .modal.open {
+    display: block;
+  }
+
+  .modal-content {
+    width: 100%
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .form-container button {
+    margin-top: 10px;
+    /* Add some top margin for spacing */
+    padding: 10px 10px;
+    border: 2px rgb(168, 168, 168);
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }

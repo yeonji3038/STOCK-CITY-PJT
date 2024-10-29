@@ -1,0 +1,196 @@
+.class {
+  width: 100%;
+}
+
+/* ------ title ------ */
+.inventory-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2e363d;
+  text-align: left;
+  margin: 20px 20px;
+}
+
+.inventory-title2 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2e363d;
+  text-align: center;
+  margin: 20px auto;
+}
+
+/* 검색창 */
+.search-container {
+  width: 92%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  /* 가로 중앙 정렬을 위해 margin 추가 */
+  margin-bottom: 20px;
+  border: 2px solid #2895F4;
+  border-radius: 8px;
+  padding: 20px;
+  /* 상하좌우 내부 여백 동일하게 조정 */
+  background-color: #edf6ff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 검색창 내부 입력창 */
+.txtProductNo {
+  width: 416px;
+  height: 30px;
+  margin-top: 5px;
+}
+
+.searchOption {
+  width: 100px;
+  height: 30px;
+}
+
+.search-table {
+  width: 500px;
+}
+
+.search-button {
+  padding: 4px 10px;
+  border: none;
+  background-color: #2895F4;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 등록된 상품 조회 리스트 */
+.prodList-table {
+  border: 1px solid rgb(168, 168, 168);
+  border-radius: 20px;
+  border-collapse: collapse;
+  width: 96%;
+  margin: 10px auto;
+  text-align: center;
+}
+
+.prodList-table td {
+  border: 1px solid #626161;
+  padding: 4px;
+  text-align: center;
+  height: 10px;
+}
+
+.prodList-table tr:first-child {
+  background-color: #edf6ff;
+  border: 1px solid #626161;
+  border-radius: 4px;
+}
+
+.prodList-table .second-table-content {
+  height: 60vh;
+  overflow: auto;
+  background-color: white !important;
+}
+
+.prodNo {
+  width: 48%;
+}
+
+.prodNo:hover {
+  cursor: pointer;
+}
+
+.dataProdNo {
+  cursor: pointer;
+}
+
+.prodName {
+  width: 24%;
+}
+
+.prodName:hover {
+  cursor: pointer;
+}
+
+.size {
+  width: 8%;
+}
+
+.colorCode {
+  width: 12%;
+}
+
+.totalQuan {
+  width: 8%;
+}
+
+.no-data-row {
+  height: 400px;
+}
+
+.no-data-row-storing {
+  height: 200px;
+}
+
+/* 모달생성 */
+.modal {
+  display: none;
+  border-radius: 8px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 600px;
+  /* 최대 너비 지정 */
+  height: auto;
+  overflow: auto;
+  padding: 20px;
+  background-color: #e6f4ff;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.modal.open {
+  display: block;
+}
+
+.modal-content {
+  width: 100%
+}
+
+.button-container {
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+input[type="button"] {
+  background-color: #cadae7;
+  color: black;
+  padding: 10px 30px;
+  border: 2px rgb(168, 168, 168);
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 10px;
+  display: inline-block;
+}
+
+input[type="button"]:hover {
+  background-color: #2895F4;
+}
+
+.cancel {
+  background-color: #cadae7;
+  color: black;
+  padding: 10px 30px;
+  border: 2px rgb(168, 168, 168);
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 10px;
+  display: inline-block;
+}
+
+.cancel:hover {
+  background-color: #2895F4;
+}

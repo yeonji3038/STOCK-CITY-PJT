@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.orderStock.OrderStockMapper">
+    <resultMap type="com.example.demo.orderStock.OrderStockDTO" id="orderStock" />
+    <resultMap type="com.example.demo.join.JoinDTO" id="join"/>
+    <insert id="storingProc"> <!-- 입고 -->
+        INSERT INTO orderStock (reqStore, prodNo, reqQuan, reqDate, orderStatus) VALUES (#{storeName}, #{prodNo}, #{reqQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR), '요청 중')
+    </insert>
+    <insert id="unstoringProc"> <!-- 출고 -->
+        INSERT INTO orderStock (respStore, prodNo, respQuan, respDate, orderStatus) VALUES (#{storeName}, #{prodNo}, #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR), '출고')
+    </insert>
+
+    <select id="searchProd" resultType="com.example.demo.prod.ProdDTO"> SELECT * FROM product <where>
+        <if test="cateCode == null or cateCode == ''"> AND cateCode like CONCAT(#{cateGroup},
+        '%') </if>
+        <if test="cateGroup == null or cateGroup == ''"> AND cateCode like CONCAT('%',
+        #{cateCode}, '%') </if>
+        <if test="cateCode != null and cateCode != '' and cateGroup != null and cateGroup != ''">
+        OR cateCode = CONCAT(#{cateGroup}, '(', #{cateCode}, ')') </if>
+        <if test="colorCode != null and colorCode != ''"> AND colorCode = #{colorCode} </if>
+        <if test="size != null and size != ''"> AND size = #{size} </if>
+        <if test="prodNo != null and prodNo != ''"> AND prodNo LIKE CONCAT('%', #{prodNo}, '%') </if>
+        <if test="storeName == null"> AND storeName IS NULL </if>
+        </where>
+    </select>
+
+    <select id="connectName"> <!-- user, store의 no값이 같은 store데이터의 name값 호출-->
+        SELECT store.name AS storeName FROM user INNER JOIN store ON user.no = store.no WHERE id=#{id}
+    </select>
+
+    <select id="stockList" resultMap="orderStock">
+        SELECT * from orderStock
+    </select>
+
+    <select id="searchRootQuan">
+        SELECT product.quan FROM orderStock LEFT JOIN product ON orderStock.prodNo = product.prodNo
+        WHERE (product.storeName IS NULL AND reqStore=#{reqStore} AND orderStock.prodNo=#{prodNo} AND reqDate=#{reqDate})
+    </select>
+
+    <select id="searchProdInfo">
+        SELECT * FROM orderStock WHERE (reqStore=#{reqStore} AND prodNo=#{prodNo} AND reqDate=#{reqDate})
+    </select>
+
+    <update id="updateRootQuan">
+        UPDATE product SET quan=#{quan} WHERE (prodNo=#{prodNo} AND storeName IS NULL)
+    </update>
+
+    <select id="findRootProd">
+        SELECT * from product WHERE (prodNo=#{prodNo} AND storeName IS NULL)
+    </select>
+
+    <select id="findStoreProd">
+        SELECT * from product WHERE (prodNo=#{prodNo} AND storeName=#{storeName})
+    </select>
+
+    <update id="updateStoreProd">
+        UPDATE product SET quan=#{quan}, regDate=DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 9 HOUR) WHERE (prodNo=#{prodNo} AND storeName=#{storeName})
+    </update>
+
+    <insert id="insertStoreProd" parameterType="com.example.demo.prod.ProdDTO">
+        INSERT INTO product (prodNo, brandCode, cateCode, prodName, incomePrice, sellPrice, size, colorCode, quan, prodCon, regDate, storeName) 
+        VALUES (#{prodNo}, #{brandCode}, #{cateCode}, #{prodName}, #{incomePrice}, #{sellPrice}, #{size}, #{colorCode}, #{quan}, #{prodCon}, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 9 HOUR), #{storeName})
+    </insert>
+
+    <select id="searchOrderStatus">
+        SELECT * from orderStock WHERE (reqStore=#{reqStore} AND prodNo=#{prodNo} AND reqDate=#{reqDate} AND orderStatus='요청 중')
+    </select>
+
+    <update id="updateOrderStatus">
+        UPDATE orderStock SET orderStatus='요청 승인' WHERE (reqStore=#{reqStore} AND prodNo=#{prodNo} AND reqDate=#{reqDate} AND orderStatus='요청 중')
+    </update>
+
+    <update id="storingDenied">
+        UPDATE orderStock SET orderStatus='요청 거절' WHERE (reqStore=#{reqStore} AND prodNo=#{prodNo} AND reqDate=#{reqDate} AND orderStatus='요청 중')
+    </update>
+
+    <select id="storeList">
+        SELECT DISTINCT name FROM store WHERE name IS NOT NULL
+    </select>
+
+    <select id="csvList">
+        SELECT * FROM orderStock
+    </select>
+</mapper>

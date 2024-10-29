@@ -1,0 +1,58 @@
+* {
+  position: relative;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  background-color: #000;
+}
+
+body {
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: "Russo One", arial, sans-serif;
+  line-height: 1.25;
+  letter-spacing: 0.06em;
+}
+
+.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.remove {
+  display: none !important;
+}
+
+.blur {
+  filter: blur(12px);
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-init {
+  width: 100%;
+  align-self: center;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.loading-init__header {
+  font-size: 2.2em;
+}
+
+.loading-init__status {
+  margin-top: 1em;
+  font-size: 1.2em;
+  opacity: 0.75;
+}

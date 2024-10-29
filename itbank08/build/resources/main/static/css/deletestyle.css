@@ -1,0 +1,82 @@
+.center {
+	text-align: center;
+}
+
+.container {
+	text-align: center;
+	padding: 40px;
+	margin: 20px;
+	display: inline-block;
+	background-color: #f9f9f9;
+	border-radius: 6px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.error-msg {
+	text-align: center;
+	font-size: 16px;
+	color: rgb(255, 0, 0);
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.form-container {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.input-field {
+	text-align: center;
+	width: 100%;
+	padding: 5px;
+	margin: 10px 0px;
+	border: 2px solid rgb(204, 204, 204);
+	border-radius: 6px;
+}
+
+.button {
+	left: 10%;
+	transform: translateX(-30%);
+	width: 60px;
+	height: 20px;
+	background-color: rgb(250, 250, 250);
+	font-weight: bold;
+	cursor: pointer;
+	border-radius: 6px;
+}
+
+.cancel-button {
+	transform: translateX(40%);
+	width: 60px;
+	height: 20px;
+	background-color: rgb(250, 250, 250);
+	font-weight: bold;
+	cursor: pointer;
+	border-radius: 6px;
+}
+
+.button:hover,
+.cancel-button:hover {
+	border: 2px solid rgb(232, 232, 232);
+	background-color: rgb(232, 232, 232);
+}
+
+.header-section {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+}
+
+.page-name-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.page-name {
+	font-size: 32px;
+	font-weight: 900;
+	align-self: flex-end;
+}

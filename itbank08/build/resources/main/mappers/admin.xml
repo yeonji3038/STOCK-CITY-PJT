@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.admin.AdminMapper">
+    <resultMap type="com.example.demo.admin.AdminDTO" id="admin"/>
+    <select id="findAll" resultMap="admin">
+        SELECT aId FROM admin
+    </select>
+    <insert id="adminRegistProc">
+        INSERT INTO admin (aId, aPw) VALUES (#{aId}, #{aPw})
+    </insert>
+    <select id="findAdmin" resultMap="admin">
+        SELECT * FROM admin WHERE aId=#{aId}
+    </select>
+    <resultMap type="com.example.demo.join.JoinDTO" id="join"/>
+    <select id="adminInfo" resultMap="join">
+        SELECT * FROM user WHERE accountId='root'
+    </select>
+    <select id="checkAccount" resultMap="join">
+        SELECT * FROM user WHERE email=#{email}
+    </select>
+    <update id="verifyProc">
+        UPDATE user SET registStatus="approve" WHERE email=#{email}
+    </update>
+    <update id="adminStatusActiveModify">
+        UPDATE user SET 
+        registStatus=
+        CASE 
+            WHEN registStatus IN ('approve', 'active', 'inactive') THEN 'active'
+        END, 
+        regDate=
+        CASE 
+            WHEN registStatus IN ('approve', 'active', 'inactive') THEN DATE_ADD(NOW(), INTERVAL 9 HOUR)
+        END
+        WHERE dbName = #{dbName}
+    </update>
+    <update id="adminStatusInactiveModify">
+        UPDATE user SET 
+        registStatus=
+        CASE 
+            WHEN registStatus IN ('approve', 'active', 'inactive') THEN 'inactive'
+        END, 
+        regDate=
+        CASE 
+            WHEN registStatus IN ('approve', 'active', 'inactive') THEN 'X'
+        END
+        WHERE dbName = #{dbName}
+    </update>
+    <delete id="adminRootDeleteProc">
+        DELETE FROM user WHERE dbName=#{dbName}
+    </delete>
+    <select id="checkMainId" resultMap="join">
+        SELECT * FROM user WHERE id=#{id}
+    </select>
+    <update id="updateAdCount">
+        UPDATE user SET adCount=#{adCount} WHERE dbName=#{dbName}
+    </update>
+</mapper>

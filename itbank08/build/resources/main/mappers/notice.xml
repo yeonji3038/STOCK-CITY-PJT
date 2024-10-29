@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "classpath:mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.notice.NoticeMapper">
+
+
+	<select id="noticeform" resultType="com.example.demo.notice.NoticeDTO">
+    SELECT * FROM notice ORDER BY no DESC LIMIT #{begin}, #{end}
+	</select>
+	
+	<select id="totalCount">
+    SELECT count(no) FROM notice
+	</select>
+	
+	<insert id="noticewriteProc" parameterType="com.example.demo.notice.NoticeDTO">
+		<selectKey order="BEFORE" keyProperty="no" resultType="int">
+			SELECT NVL(max(no), 0) + 1 FROM notice
+		</selectKey> 	
+		INSERT INTO notice(id,no,title,content,writeDate,fileName,views) VALUES(#{id}, #{no}, #{title}, #{content}, #{writeDate}, #{fileName}, #{views})
+	</insert>
+
+	
+ 	<select id="noticecontent" resultType="com.example.demo.notice.NoticeDTO">
+		SELECT * FROM notice WHERE no=#{no}
+	</select>
+	
+	<update id="incrementViews">
+	    UPDATE notice SET views = views + 1 WHERE no=#{n}
+	</update>
+	
+	<select id="noticeDownload">
+		SELECT fileName FROM notice WHERE no=#{n}
+	</select>
+	
+	 <update id="noticemodifyProc">
+		UPDATE notice SET title=#{title}, content=#{content} WHERE no=#{no}
+	</update>
+	
+	<delete id="noticedeleteProc">
+		DELETE FROM notice WHERE no=#{n}
+	</delete>
+	
+	<select id ="searchTitle">
+		SELECT * FROM notice WHERE title LIKE CONCAT('%', #{title}, '%')
+	</select>
+
+</mapper>
