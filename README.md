@@ -68,7 +68,12 @@
 ### 📍 신동현
 
 #### - ROLE
-- **역할**: 개발 회의, 코드 리뷰
+- **역할**:
+  - Terraform laC
+  - Elastic Kubernetes Service
+  - IAM
+  - Storage
+  - Monitoring Service
 - **상태**: ✅ 완료
 
 ----
@@ -76,7 +81,10 @@
 ### 📍 이동운
 
 #### - ROLE
-- **역할**: 개발 회의, 코드 리뷰
+- **역할**:
+  - Full Stack
+  - Create Database Schema & join database
+  - 
 - **상태**: ✅ 완료
 
 ----
@@ -94,7 +102,9 @@
 ### 📍 최연지
 
 #### - ROLE
-- **역할**: 개발 회의, 코드 리뷰
+- **역할**:
+  - Full Stack(게시판, RT, 메인화면)
+  - Create Database Schema & join database
 - **상태**: ✅ 완료
 
 
