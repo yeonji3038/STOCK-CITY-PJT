@@ -6,7 +6,7 @@
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href=""><img src="/src/jm.png" width="100px;" alt=""/><br /><sub><b>Infr 팀장 : 김수아 </b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="/sa.png" width="100px;" alt=""/><br /><sub><b>Infr 팀장 : 김수아 </b></sub></a><br /></td>
       <td align="center"><a href=""><img src="/src/gm.png" width="100px;" alt=""/><br /><sub><b>Infr 팀원 : 신동현</b></sub></a><br /></td>
       <td align="center"><a href=""><img src="/src/yjpng.png" width="100px;" alt=""/><br /><sub><b>Full St 팀원 : 최연지 </b></sub></a><br /></td>
       <td align="center"><a href=""><img src="/src/ji.png" width="100px;" alt=""/><br /><sub><b>Full St 팀원 : 이동운</b></sub></a><br /></td>
