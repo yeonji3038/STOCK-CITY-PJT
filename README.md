@@ -84,7 +84,6 @@
 - **역할**:
   - Full Stack
   - Create Database Schema & join database
-  - 
 - **상태**: ✅ 완료
 
 ----
