@@ -7,7 +7,7 @@
   <tbody>
     <tr>
       <td align="center"><a href=""><img src="/sa.png" width="100px;" alt=""/><br /><sub><b>Infr 팀장 : 김수아 </b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="/dh.png" width="100px;" alt=""/><br /><sub><b>Infr 팀원 : 신동현</b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="/dhpng.png" width="100px;" alt=""/><br /><sub><b>Infr 팀원 : 신동현</b></sub></a><br /></td>
       <td align="center"><a href=""><img src="/yj.png" width="100px;" alt=""/><br /><sub><b>Full St 팀원 : 최연지 </b></sub></a><br /></td>
       <td align="center"><a href=""><img src="/dw.png" width="100px;" alt=""/><br /><sub><b>Full St 팀원 : 이동운</b></sub></a><br /></td>
       <td align="center"><a href=""><img src="/sw.png" width="100px;" alt=""/><br /><sub><b>DA 팀원 : 이상원</b></sub></a><br /></td>
